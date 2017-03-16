@@ -1,6 +1,10 @@
 GECK: Garden of Eden Creation Kit
 =================================
 
+.. image:: https://badges.gitter.im/geck-87/Lobby.svg
+   :alt: Join the chat at https://gitter.im/geck-87/Lobby
+   :target: https://gitter.im/geck-87/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
+
 This world may not be perfect, but GECK strives to provide you with your own
 little Garden of Eden.
 
