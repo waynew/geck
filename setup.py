@@ -1,6 +1,10 @@
 from setuptools import setup, find_packages
 
 
+tests_require = [
+    'pytest',
+    'hypothesis',
+]
 setup(
     name='geck',
     version='0.0.0',
@@ -12,4 +16,9 @@ setup(
     [console_scripts]
     geck=geck.__main__:run
     ''',
+    tests_require=tests_require,
+    extras_require={
+        'testing': tests_require,
+        'building': ['wheel'],
+    },
 )
