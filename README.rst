@@ -153,6 +153,46 @@ Or if you wanted to roll your own, you could do that, too:
         on=geck.Status.build_start | geck.Status.build_end,
     ))
 
+Putting It All Together
+***********************
+
+Here's what GECK's config looks like:
+
+::
+
+    import geck
+
+    project = geck.Project('GECK')
+
+    project.add_webhook(geck.webhooks.github(key=geck.config['GITHUB_KEY']))
+    project.add_poller(geck.pollers.git('ssh://example.com/path/to/geck'))
+
+    project.add_notifier(geck.notifiers.gitter(geck.config['GITTER_URL']))
+
+    project.add_step(geck.steps.make_venv('.venv', clean=True))
+    project.add_step(geck.steps.pip_install('TODO I'm not sure what to write here right now and I don't really feel like fixing it'))
+    project.set_env('GECK_VERSION', geck.cmd.run('.venv/bin/geck --version'))
+
+    project.add_step(geck.steps.tasks_scan(
+        markers={
+            'TODO': {'warn': 10},
+            'FIXME': {'warn': 1, 'fail': 10},
+            'XXX': None,
+        },
+    )
+    project.add_step(geck.steps.run_pytest(
+        coverage=['geck'],
+        output='nunit',
+    ))
+    project.add_step(geck.git.merge(
+        source=geck.env['CHANGE_BRANCH'],
+        target='master',
+    ))
+    project.add_step(geck.git.tag( ))
+    project.add_step(geck.steps.build_wheel('geck'))
+    project.add_step(geck.steps.publish(geck.publishers.github(
+        artifacts=
+    )))
 
 I Don't Like Python
 *******************
@@ -171,9 +211,9 @@ write your config like this:
             {'geck.py.sphinx': {'package': 'geck', 'output': '/var/www/geck'}},
             'geck.util.tasks_scan',
             'geck.py.pylint',
-            {'geck.py.run_pytest': {'tests': 'tests', 'cov': 'geck',
+            {'geck.steps.run_pytest': {'tests': 'tests', 'cov': 'geck',
                                     'junitxml': 'build/tests.xml'}},
-            'geck.py.build_wheel',
+            'geck.steps.build_wheel',
             {'geck.github.create_release': {'version': '{version}'}},
             {'geck.github.release_asset': {'filename': '/build/{version}.whl'}}
          ],
