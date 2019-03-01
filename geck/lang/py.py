@@ -16,6 +16,7 @@ def makevenv(python='python'):
 def build_wheel(python='python', setup='setup.py'):
     result = geck.cmd.run([python, setup, 'bdist_wheel']).run()
     if result['status'] is Status.ok:
-        for row in result['stdout'].split('\n'):
-            if row.startswith("creating 'dist/"):
-                result['wheel'] = Path(row.split()[1].strip("'"))
+        for row in result['stdout'].split(b'\n'):
+            if row.startswith(b"creating 'dist/"):
+                result['wheel'] = Path(row.split()[1].decode().strip("'"))
+    return result

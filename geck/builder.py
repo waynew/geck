@@ -11,6 +11,7 @@ from .run import Status
 def next_run_id(root):
     run_id_file = root / 'last-run-id'
     if not run_id_file.exists():
+        run_id_file.parent.mkdir(parents=True, exist_ok=True)
         run_id_file.write_text('0')
 
     with run_id_file.open(mode='r+') as f:
