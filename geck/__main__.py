@@ -1,6 +1,8 @@
+import os
 import subprocess
 import tempfile
-import os
+
+from .cli import parser
 
 
 def run():
@@ -12,7 +14,7 @@ def run():
     print('making virtualenv...')
     output = subprocess.run(
         [
-            '/usr/local/bin/python3.6',
+            'python3',
             '-m',
             'venv',
             os.path.join(tempdir, 'env'),
@@ -109,4 +111,5 @@ def run():
 
 
 if __name__ == '__main__':
-    run()
+    args = parser.parse_args()
+    args.func(args)

@@ -7,7 +7,7 @@ tests_require = [
 ]
 setup(
     name='geck',
-    version='0.0.0',
+    version='0.0.0dev1',
     author='Wayne Werner',
     author_email='waynejwerner@gmail.com',
     url='https://github.com/waynew/geck',
@@ -18,7 +18,7 @@ setup(
     ''',
     tests_require=tests_require,
     extras_require={
-        'testing': tests_require,
-        'building': ['wheel'],
+        'test': tests_require,
+        'build': ['wheel'],
     },
 )
