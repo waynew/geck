@@ -43,8 +43,6 @@ def step(func):
 
 class Step:
     def __init__(self, func, *args, **kwargs):
-        self.status = None
-
         @wraps(func)
         def wrapper():
             #print(f'Calling wrapper now with {args} and {kwargs}')
@@ -52,9 +50,12 @@ class Step:
         self.wrapper = wrapper
 
     def run(self):
-        result = self.wrapper()
-        self.status = result['status']
-        return result
+        self.result = self.wrapper()
+        return self.result
+
+    @property
+    def status(self):
+        return self.result['status']
 
 
 class Build:
@@ -80,6 +81,7 @@ class Build:
                 print(step.status.value)
                 if step.status.is_bad:
                     self.status = step.status
+                    print(step.result)
                     break
             else:
                 self.status = Status.ok
